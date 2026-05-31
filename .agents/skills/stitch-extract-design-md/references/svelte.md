@@ -99,4 +99,4 @@ If component libraries are used:
   design token system. Look for custom theme config object.
 - **DaisyUI**: Theme in `tailwind.config.js` → `daisyui.themes` array.
 - **Flowbite-Svelte**: Standard Tailwind theming.
-- **Shadcn-svelte**: refer to https://www.shadcn-svelte.com/llms.txt for 
+- **Shadcn-svelte**: refer to https://www.shadcn-svelte.com/llms.txt 

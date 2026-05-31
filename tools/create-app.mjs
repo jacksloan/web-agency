@@ -1,24 +1,31 @@
 #!/usr/bin/env node
-// Scaffold a new SvelteKit app by cloning apps/example.
+// Scaffold a new SvelteKit app by cloning a template.
 //
-// Copies the example app's source (src/, static/) and project files (configs,
-// package.json, etc.) into apps/<name>, skipping generated and dependency
-// directories (.svelte-kit, .turbo, .vercel, node_modules, dist, build). Then
-// renames the new project so its package.json "name" matches <name>.
+// Templates are apps that live in `apps/` with a `template-` prefix (e.g.
+// apps/template-shadcn). create-app copies a template's source (src/, static/)
+// and project files (configs, package.json, etc.) into apps/<name>, skipping
+// generated and dependency directories (.svelte-kit, .turbo, .vercel,
+// node_modules, dist, build), then renames the new project so its package.json
+// "name" matches <name>.
 //
 // Usage:
-//   node tools/create-app.mjs <name>
-//   pnpm create-app <name>
+//   node tools/create-app.mjs <name> [--template <template>]
+//   pnpm create-app <name> [--template <template>]
 //
-// Example:
-//   pnpm create-app acme-landing   ->   apps/acme-landing (package name "acme-landing")
+// The template name may be given with or without the `template-` prefix, and a
+// `templates/<name>` directory is also honored if present.
+//
+// Examples:
+//   pnpm create-app acme-shop                          # uses the default template
+//   pnpm create-app acme-shop --template template-shadcn
+//   pnpm create-app acme-shop --template shadcn        # shorthand for template-shadcn
 
-import { cpSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const TEMPLATE = join(ROOT, 'apps', 'example');
+const DEFAULT_TEMPLATE = 'template-shadcn';
 
 // Directories that are generated, installed, or environment-specific — never copy these.
 const EXCLUDE = new Set([
@@ -36,27 +43,84 @@ function fail(message) {
   process.exit(1);
 }
 
-const name = process.argv[2];
+// Resolve a template name to a directory. Accepts the exact name or the
+// `template-`-less shorthand, and looks under both apps/ and templates/.
+function resolveTemplate(name) {
+  const candidates = [
+    join(ROOT, 'apps', name),
+    join(ROOT, 'templates', name),
+    join(ROOT, 'apps', `template-${name}`),
+    join(ROOT, 'templates', `template-${name}`)
+  ];
+  for (const dir of candidates) {
+    if (existsSync(dir) && existsSync(join(dir, 'package.json'))) return dir;
+  }
+  return null;
+}
 
-if (!name || name === '--help' || name === '-h') {
+// Available templates: apps/template-* and any directory under templates/.
+function listTemplates() {
+  const found = [];
+  const dir = (p) => (existsSync(p) ? readdirSync(p, { withFileTypes: true }) : []);
+  for (const entry of dir(join(ROOT, 'apps'))) {
+    if (entry.isDirectory() && entry.name.startsWith('template-')) found.push(entry.name);
+  }
+  for (const entry of dir(join(ROOT, 'templates'))) {
+    if (entry.isDirectory()) found.push(entry.name);
+  }
+  return [...new Set(found)];
+}
+
+// Parse args: a positional <name> plus an optional --template/-t <template>.
+const argv = process.argv.slice(2);
+const wantsHelp = argv.some((a) => a === '--help' || a === '-h');
+let name;
+let template = DEFAULT_TEMPLATE;
+
+for (let i = 0; i < argv.length; i++) {
+  const arg = argv[i];
+  if (arg === '--help' || arg === '-h') {
+    continue;
+  } else if (arg === '--template' || arg === '-t') {
+    template = argv[++i];
+  } else if (arg.startsWith('--template=')) {
+    template = arg.slice('--template='.length);
+  } else if (!name) {
+    name = arg;
+  }
+}
+
+if (wantsHelp || !name) {
   console.log(`
-  Create a new SvelteKit app from the apps/example template.
+  Create a new SvelteKit app from a template.
 
   Usage:
-    pnpm create-app <name>
+    pnpm create-app <name> [--template <template>]
 
-  <name> must be kebab-case (lowercase letters, digits, hyphens), e.g. "acme-landing".
-  The app is created at apps/<name> and its package.json name is set to <name>.
+  <name>      kebab-case (lowercase letters, digits, hyphens), e.g. "acme-landing".
+              The app is created at apps/<name> and its package.json name is set to <name>.
+  --template  Template to clone (default: "${DEFAULT_TEMPLATE}"). The "template-" prefix is
+              optional, so "shadcn" and "template-shadcn" both resolve to apps/template-shadcn.
+
+  Available templates: ${listTemplates().join(', ') || '(none found)'}
 `);
-  process.exit(name ? 0 : 1);
+  process.exit(wantsHelp ? 0 : 1);
 }
 
 if (!/^[a-z][a-z0-9-]*$/.test(name)) {
   fail(`Invalid name "${name}". Use kebab-case: lowercase letters, digits, and hyphens (must start with a letter).`);
 }
 
-if (!existsSync(TEMPLATE)) {
-  fail(`Template not found at ${TEMPLATE}. Run this from within the web-agency monorepo.`);
+if (!template) {
+  fail('Missing value for --template.');
+}
+
+const TEMPLATE = resolveTemplate(template);
+if (!TEMPLATE) {
+  fail(
+    `Template "${template}" not found.\n` +
+      `    Available templates: ${listTemplates().join(', ') || '(none found)'}`
+  );
 }
 
 const dest = join(ROOT, 'apps', name);
@@ -82,7 +146,7 @@ pkg.name = name;
 writeFileSync(pkgPath, JSON.stringify(pkg, null, '\t') + '\n');
 
 console.log(`
-  ✔ Created apps/${name} from the example template.
+  ✔ Created apps/${name} from the "${template}" template.
 
   Next steps:
     pnpm install                  # link the new workspace package
