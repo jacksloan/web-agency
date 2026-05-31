@@ -25,7 +25,7 @@ import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const DEFAULT_TEMPLATE = 'template-shadcn';
+const DEFAULT_TEMPLATE = 'template-tailwind';
 
 // Directories that are generated, installed, or environment-specific — never copy these.
 const EXCLUDE = new Set([
