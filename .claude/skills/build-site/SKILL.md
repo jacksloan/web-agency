@@ -22,6 +22,36 @@ Run the stages in order. Each stage names the skill/tool to use — invoke that 
 Confirm the resolved app name, template, and target URL with the user before scaffolding, since those
 are hard to change later.
 
+## Requirements (non-negotiable)
+
+This skill runs the **full pipeline, every time** — including for "simple" sites. The whole point is
+that every site is produced the same way, with real artifacts at each step.
+
+- **Run all six stages in order. None is optional**, and none may be merged, shortcut, or skipped.
+- **Use the named tool for each stage — no substitutes, no hand-rolled fallbacks.** In particular:
+  scrape with **Firecrawl** (never WebFetch, `curl`, or manual browsing); design with **Google
+  Stitch** (never hand-author pages in place of generated Stitch designs).
+- **Persist artifacts to disk** under `apps/<name>/designs/` (stages 1 and 4) so every build is
+  reproducible and reviewable — never leave scraped content or designs living only in the chat.
+- **If a required tool or credential is missing, STOP. Do not adapt around it.** Tell the user exactly
+  what to set up (see Preflight) and wait for them to do it — never silently downgrade to a lesser
+  method. Adapting a stage away is a failure, not a workaround.
+
+## Preflight — verify before you start
+
+Check all of these up front. **Abort at the first failure** with the exact fix; do not begin a stage
+whose tool isn't confirmed.
+
+| Capability | Check | If missing — require the user to |
+| --- | --- | --- |
+| **Firecrawl** (stage 1) | `firecrawl` CLI available and `FIRECRAWL_API_KEY` set (see the `firecrawl` skill) | install/authenticate Firecrawl and set `FIRECRAWL_API_KEY`, then re-run |
+| **Google Stitch** (stage 4) | Stitch MCP / `stitch-*` skills reachable | connect Google Stitch access, then re-run |
+| **Vercel** (stage 6) | `vercel whoami` succeeds | run `vercel login`, then re-run |
+
+If a prerequisite is missing, stop and say so plainly, e.g.: *"Can't continue — the scrape stage
+requires Firecrawl, which isn't set up. Set `FIRECRAWL_API_KEY` (and install the Firecrawl CLI), then
+re-run."* Do not proceed with a substitute.
+
 ## Inputs
 
 - **Target URL** (required) — the site/business to scrape from.
@@ -42,10 +72,16 @@ Every template is SvelteKit + TailwindCSS; they differ only by UI flavor.
 
 ## Workflow
 
-### 1. Scrape — pull the target's content
+### 1. Scrape — pull the target's content (Firecrawl required)
 Use the **firecrawl** skills: `firecrawl-scrape` for a single page, `firecrawl-map` + `firecrawl-crawl`
 to discover and pull the key pages. Capture copy, structure, nav, and assets. For brand/visual cues
 (colors, fonts), `firecrawl-website-design-clone` can extract a design summary.
+
+**Save the scraped content to disk** — one Markdown file per page plus any structured notes. Keep it
+in a working location during scrape, and once the app is scaffolded (stage 3) persist it under
+`apps/<name>/designs/source/` so it ships and is reviewable alongside the build. Do not keep scrape
+output only in the conversation. If Firecrawl is unavailable, **stop** (see Preflight) — do not
+substitute WebFetch or manual browsing.
 
 ### 2. Plan — concept + page selection (Claude)
 From the scraped content, decide the new site concept and select the **3 highest-impact pages** to
@@ -60,11 +96,15 @@ pnpm create-app <name> --template <template>   # when a flavor was chosen
 This creates `apps/<name>` (cloned from the chosen template, package renamed). See `tools/create-app.mjs`.
 Run `pnpm install` afterward to link the new workspace package.
 
-### 4. Design — generate the pages in Google Stitch
+### 4. Design — generate the pages in Google Stitch (Stitch required)
 Use the **stitch** skills: `enhance-prompt` to turn the brief into a strong Stitch prompt, then
 `stitch-generate-design` (or `stitch-loop` for iterative multi-page builds) to design each of the 3
 pages. **Save the generated HTML into `apps/<name>/designs/`** (one file per page) — this folder is the
 handoff artifact between design and build, per the README.
+
+This stage is **required**: the SvelteKit pages in stage 5 must be built from real Stitch designs.
+Do not hand-author pages in place of generating designs. If Google Stitch is unavailable, **stop**
+(see Preflight) and have the user connect it — even for a "simple" site.
 
 ### 5. Build — convert designs into SvelteKit pages
 Turn each `designs/*.html` into a responsive SvelteKit route under `apps/<name>/src/routes`, styled
