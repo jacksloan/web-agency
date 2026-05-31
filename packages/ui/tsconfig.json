@@ -7,6 +7,6 @@
     "strictNullChecks": true,
     "types": ["svelte"]
   },
-  "include": ["dist", "./src/**/*.svelte", "./src/**/*.ts"],
+  "include": ["./src/**/*.svelte", "./src/**/*.ts"],
   "exclude": ["node_modules", ".svelte-kit"]
 }

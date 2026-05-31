@@ -1,0 +1,8 @@
+/* Pull in the shared design system (Tailwind v4 import, theme tokens, base layer)
+   from the @repo/ui package so the app and the components share one source of truth. */
+@import '@repo/ui/globals.css';
+
+/* The UI components live in a separate package, so Tailwind's automatic content
+   detection (which only scans this app) won't see the classes they use. Point it at
+   the compiled library output so every utility the components reference is generated. */
+@source '../../../packages/ui/dist';
