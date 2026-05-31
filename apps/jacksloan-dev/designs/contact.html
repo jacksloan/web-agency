@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact — Jack Sloan | Software Consultant</title>
+<!-- Google Fonts: Hanken Grotesk & Geist -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;800&amp;family=Geist:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#e8e8e7",
+                    "surface-container-highest": "#e2e2e2",
+                    "inverse-on-surface": "#f1f1f0",
+                    "surface-dim": "#dadad9",
+                    "primary": "#061b0e",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#b4cdb8",
+                    "on-surface": "#1a1c1c",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#2d1417",
+                    "tertiary": "#271013",
+                    "surface-tint": "#4d6453",
+                    "secondary-fixed-dim": "#b5cad4",
+                    "inverse-surface": "#2f3130",
+                    "tertiary-container": "#3f2427",
+                    "surface-bright": "#f9f9f8",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e2e2e2",
+                    "on-primary-fixed": "#0b2013",
+                    "primary-container": "#1b3022",
+                    "background": "#f9f9f8",
+                    "on-surface-variant": "#434843",
+                    "inverse-primary": "#b4cdb8",
+                    "on-secondary-fixed": "#0a1e26",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#52656f",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#819986",
+                    "outline-variant": "#c3c8c1",
+                    "tertiary-fixed-dim": "#e7bcbf",
+                    "tertiary-fixed": "#ffd9dc",
+                    "on-secondary-fixed-variant": "#374952",
+                    "primary-fixed": "#d0e9d4",
+                    "surface": "#f9f9f8",
+                    "secondary-fixed": "#d1e6f0",
+                    "outline": "#737973",
+                    "secondary": "#4e616a",
+                    "on-tertiary-container": "#b0898c",
+                    "surface-container-low": "#f3f4f3",
+                    "on-tertiary-fixed-variant": "#5d3f42",
+                    "on-background": "#1a1c1c",
+                    "secondary-container": "#cee3ee",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#364c3c",
+                    "surface-container": "#eeeeed"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "32px",
+                    "container-max": "1140px",
+                    "sidebar-width": "280px",
+                    "margin-mobile": "24px",
+                    "unit": "8px",
+                    "section-gap": "128px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Geist"],
+                    "display": ["Hanken Grotesk"],
+                    "label-md": ["Geist"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "code": ["Geist"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-md": ["Geist"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "code": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f9f9f8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .active-nav-indicator {
+            position: absolute;
+            left: 0;
+            width: 2px;
+            height: 1.5rem;
+            background-color: #061b0e;
+        }
+        @media (max-width: 1024px) {
+            .main-content { margin-left: 0; }
+        }
+        @media (min-width: 1024px) {
+            .main-content { margin-left: 280px; }
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary-fixed">
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden lg:flex flex-col justify-between py-12 px-8 h-screen w-sidebar-width fixed left-0 top-0 bg-background border-r border-outline-variant">
+<div class="space-y-12">
+<div class="flex flex-col gap-4">
+<img alt="Jack Sloan Portrait" class="w-16 h-16 rounded-full grayscale object-cover border border-outline-variant" data-alt="A clean, professional headshot of a software consultant with a neutral expression, positioned in front of a soft-focus architectural background. The lighting is bright and natural, reflecting a high-end minimalist aesthetic. The image uses a cool, muted color palette with high clarity, emphasizing professional maturity and technical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp_GJV3PA3fNuTQ2tqbsM8fXLOo_SlN_Ut-y9q-USeidmIrY02dB8QBfUvv2oL-fMR4LD9RzFk7xWI0rp6lunuOZ3ie_VsKnV8cg4bGpwjaciZJrYH5T6JL3GbiulVpZuVHt1cEvkdObz7pIG1eFKTc6VykrucgWZCA5hHe8rznj3zKsvksp8ycbZI7plCk4Jq3rQvclwcpjH4fNB5X5jSntIjfYq39RjR_Luj8XLGHqa-cKMMGEa9sdNHnKMXinWEfDQGRo_sGec"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Jack Sloan</h1>
+<p class="font-label-md text-label-md text-secondary uppercase tracking-widest">Software Consultant</p>
+</div>
+</div>
+<nav class="flex flex-col gap-6">
+<a class="group flex items-center gap-3 font-label-md text-label-md text-secondary hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                    About
+                </a>
+<a class="group flex items-center gap-3 font-label-md text-label-md text-secondary hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+                    Projects
+                </a>
+<div class="relative flex items-center gap-3 font-label-md text-label-md text-primary font-bold">
+<div class="active-nav-indicator"></div>
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+                    Contact
+                </div>
+</nav>
+</div>
+<div class="space-y-8">
+<button class="w-full py-4 px-6 bg-primary-container text-on-primary-container font-label-md text-label-md font-bold hover:opacity-80 transition-all active:scale-95">
+                Work With Me
+            </button>
+<div class="flex flex-col gap-4">
+<div class="flex gap-4">
+<a class="text-secondary hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined" data-icon="code">code</span></a>
+<a class="text-secondary hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined" data-icon="terminal">terminal</span></a>
+<a class="text-secondary hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined" data-icon="play_circle">play_circle</span></a>
+<button class="text-secondary hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span></button>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar (Mobile) -->
+<header class="flex lg:hidden justify-between items-center w-full px-margin-mobile h-20 fixed top-0 z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">Jack Sloan</span>
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="main-content min-h-screen flex flex-col">
+<div class="flex-grow max-w-[720px] mx-auto px-margin-mobile pt-32 lg:pt-48 pb-section-gap">
+<!-- Hero Section -->
+<section class="space-y-12 mb-24">
+<h2 class="font-display text-display text-on-surface">Get in touch</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Available for software consulting and interesting projects. The fastest way to reach me is email — a résumé is available on request.
+                </p>
+</section>
+<!-- Actions Section -->
+<section class="space-y-12">
+<div class="flex flex-col items-start gap-8">
+<a class="inline-flex items-center gap-4 bg-primary px-8 py-5 text-on-primary font-headline-md text-headline-md hover:opacity-90 transition-all active:scale-[0.98]" href="mailto:hi@jacksloan.dev">
+                        hi@jacksloan.dev
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+<div class="flex flex-wrap gap-4 pt-4 border-t border-outline-variant w-full">
+<a class="px-6 py-3 border border-secondary text-secondary font-label-md text-label-md hover:bg-secondary/5 transition-colors" href="#">
+                            LinkedIn
+                        </a>
+<a class="px-6 py-3 border border-secondary text-secondary font-label-md text-label-md hover:bg-secondary/5 transition-colors" href="#">
+                            GitHub
+                        </a>
+<a class="px-6 py-3 border border-secondary text-secondary font-label-md text-label-md hover:bg-secondary/5 transition-colors" href="#">
+                            Résumé
+                        </a>
+</div>
+</div>
+</section>
+<!-- Atmosphere/Decorative Element (Asymmetric) -->
+<section class="mt-section-gap">
+<div class="relative w-full h-96 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low group">
+<img alt="Superior Landscape" class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700" data-alt="A wide-angle, minimalist photograph of the North Shore of Lake Superior during a calm, overcast day. The water is a deep, quiet slate blue, meeting a pale, misty horizon line. Smooth, dark volcanic rocks are visible in the foreground, reflecting the clean and structured aesthetic of the portfolio. The overall mood is serene, vast, and professionally focused." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbzhyEpF4DEnJgEQ6kaD-plWO4Q-wFM82e-9wY7pMntyuU75HDFS4f5AlRStX2eLnig1Ety4FhiPW1n6b4uIJyiXVdA5ZonYJL_NyX5crlONOnj1sL4v9AqlzIIO657CLKg8iIzObKcTMu2TlAFY8RRzpOkL_7cuoSL6Fhr5wti0XGLOKrv6ADis8QCnBgqJpbm6iU8GS7WW0Ea0cIR0YppNTLKcPn4BtmjcfnkogzQ6TzpG5lc1eHMEjkD6GbMlMqNzw8rBS41hg"/>
+<div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-background/80 to-transparent">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-tighter">Current Location</span>
+<p class="font-headline-md text-headline-md text-on-surface">Duluth, MN</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="bg-background border-t border-outline-variant mt-auto">
+<div class="max-w-container-max mx-auto py-12 px-margin-mobile flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col md:flex-row items-center gap-6">
+<span class="font-label-md text-label-md font-bold text-on-surface">Jack Sloan</span>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 Jack Sloan. Built with precision.</p>
+</div>
+<nav class="flex gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Source</a>
+</nav>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interaction for the primary CTA
+        const mainCta = document.querySelector('a[href^="mailto"]');
+        if (mainCta) {
+            mainCta.addEventListener('mouseenter', () => {
+                mainCta.querySelector('.material-symbols-outlined').style.transform = 'translateX(8px)';
+                mainCta.querySelector('.material-symbols-outlined').style.transition = 'transform 0.2s ease-out';
+            });
+            mainCta.addEventListener('mouseleave', () => {
+                mainCta.querySelector('.material-symbols-outlined').style.transform = 'translateX(0)';
+            });
+        }
+
+        // Simple Fade-in effect on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const content = document.querySelector('.main-content');
+            content.style.opacity = '0';
+            content.style.transform = 'translateY(10px)';
+            content.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            
+            requestAnimationFrame(() => {
+                content.style.opacity = '1';
+                content.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

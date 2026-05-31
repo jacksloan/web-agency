@@ -1,0 +1,88 @@
+/* Tailwind v4 + DaisyUI, themed from the Stitch "Superior Minimalist" design
+   system: Deep Pine accent on calm off-white surfaces, Hanken Grotesk for
+   headings + Geist for text. Two themes — `superior` (light, default) and
+   `superior-dark` — toggled via data-theme on <html>. */
+@import 'tailwindcss';
+
+@plugin 'daisyui';
+
+@plugin 'daisyui/theme' {
+	name: 'superior';
+	default: true;
+	prefersdark: false;
+	color-scheme: light;
+	--color-base-100: #f9f9f8;
+	--color-base-200: #eeeeed;
+	--color-base-300: #e2e2e2;
+	--color-base-content: #1a1c1c;
+	--color-primary: #1b3022;
+	--color-primary-content: #ffffff;
+	--color-secondary: #4e616a;
+	--color-secondary-content: #ffffff;
+	--color-accent: #4d6453;
+	--color-accent-content: #ffffff;
+	--color-neutral: #1a1c1c;
+	--color-neutral-content: #f9f9f8;
+	--color-info: #4e616a;
+	--color-info-content: #ffffff;
+	--color-success: #1b3022;
+	--color-success-content: #ffffff;
+	--color-warning: #b4881a;
+	--color-warning-content: #ffffff;
+	--color-error: #ba1a1a;
+	--color-error-content: #ffffff;
+	--radius-selector: 0.25rem;
+	--radius-field: 0.25rem;
+	--radius-box: 0.5rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
+}
+
+@plugin 'daisyui/theme' {
+	name: 'superior-dark';
+	default: false;
+	prefersdark: true;
+	color-scheme: dark;
+	--color-base-100: #15211a;
+	--color-base-200: #1a2a20;
+	--color-base-300: #24332a;
+	--color-base-content: #eef1ee;
+	--color-primary: #b4cdb8;
+	--color-primary-content: #0b2013;
+	--color-secondary: #b5cad4;
+	--color-secondary-content: #0a1e26;
+	--color-accent: #cee3ee;
+	--color-accent-content: #0a1e26;
+	--color-neutral: #e2e2e2;
+	--color-neutral-content: #15211a;
+	--color-info: #b5cad4;
+	--color-info-content: #0a1e26;
+	--color-success: #b4cdb8;
+	--color-success-content: #0b2013;
+	--color-warning: #e7c873;
+	--color-warning-content: #1a1c1c;
+	--color-error: #ffb4ab;
+	--color-error-content: #690005;
+	--radius-selector: 0.25rem;
+	--radius-field: 0.25rem;
+	--radius-box: 0.5rem;
+	--size-selector: 0.25rem;
+	--size-field: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
+}
+
+/* Fonts from the design system (loaded in app.html). */
+@theme {
+	--font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Hanken Grotesk', var(--font-sans);
+	--font-mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+html {
+	font-family: var(--font-sans);
+}

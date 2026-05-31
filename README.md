@@ -269,7 +269,8 @@ Individual stages also have their own skills you can invoke directly — Firecra
 - [x] Google Stitch design generation into `designs/`
 - [x] Stitch → SvelteKit + TailwindCSS conversion (responsive pages, extracted Nav/Footer/Card components)
 - [x] Svelte best-practice grounding via `svelte.dev/llms-*.txt`
-- [ ] End-to-end one-shot build returning a live URL, hands-free via Claude remote-control (validated)
+- [x] End-to-end build returning a live URL — validated on jacksloan.dev (Firecrawl → Stitch → SvelteKit → Vercel)
+- [ ] Fully autonomous, hands-free one-shot via Claude remote-control (single prompt, no mid-run setup)
 
 ---
 

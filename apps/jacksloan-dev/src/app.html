@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Jack Sloan — Software Consultant</title>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="Jack Sloan — a Minnesota-based software consultant on the north shore of Lake Superior. Pragmatic, type-safe web software."
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Geist:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+		<script>
+			// Set the theme before first paint to avoid a flash of the wrong theme.
+			(() => {
+				try {
+					const stored = localStorage.getItem('theme');
+					const theme =
+						stored ??
+						(matchMedia('(prefers-color-scheme: dark)').matches ? 'superior-dark' : 'superior');
+					document.documentElement.setAttribute('data-theme', theme);
+				} catch {}
+			})();
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
