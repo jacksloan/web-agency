@@ -147,29 +147,43 @@ generated/dependency directories) and renames the package. See `tools/create-app
 
 ## Project structure
 
-Each generated project follows a Turborepo monorepo layout:
+This repo is a Turborepo monorepo. Generated apps and the templates they're cloned from both live
+under `apps/`:
 
 ```
-my-new-site/
+web-agency/
 ├── apps/
-│   └── web/                  # SvelteKit app (TailwindCSS)
-│       ├── designs/          # Stitch-generated HTML for the 3 redesigned pages
+│   ├── template-tailwind/    # vanilla Tailwind template (the default)
+│   ├── template-shadcn/      # shadcn-svelte template
+│   ├── template-daisy/       # DaisyUI template
+│   └── <your-app>/           # a generated app (cloned from a template)
+│       ├── designs/          # Stitch-generated HTML for the redesigned pages
 │       ├── src/
-│       │   ├── lib/
-│       │   │   └── components/   # Extracted UI: Nav, Footer, Card, etc.
-│       │   └── routes/          # SvelteKit pages built from the designs
-│       ├── tailwind.config.js
-│       └── svelte.config.js
-├── packages/                 # Shared packages (ui, config, etc.)
+│       │   ├── lib/components/   # extracted UI: Nav, Footer, Card, etc.
+│       │   ├── routes/          # SvelteKit pages built from the designs
+│       │   └── app.css          # Tailwind v4 entry (@import "tailwindcss")
+│       ├── svelte.config.js     # @sveltejs/adapter-vercel
+│       └── vite.config.ts       # @tailwindcss/vite plugin
+├── packages/
+│   ├── ui/                   # @repo/ui — shared shadcn-svelte components
+│   ├── eslint-config/        # @repo/eslint-config
+│   └── typescript-config/    # @repo/typescript-config
+├── tools/create-app.mjs      # scaffolds apps/<name> from a template
+├── .claude/skills/           # project skills (build-site, deploy-app, …)
 ├── turbo.json                # Turborepo task pipeline
 └── package.json
 ```
+
+> Tailwind v4 is configured via the `@tailwindcss/vite` plugin and a CSS `@import` — there's no
+> `tailwind.config.js`.
 
 ---
 
 ## Getting started
 
-> ⚠️ This project is in active development. Setup steps below describe the intended workflow.
+> ⚠️ Active development. Scaffolding (`create-app`), the UI-flavor templates, and deploys
+> (`deploy-app`) are wired up and working today; the fully autonomous one-shot orchestration via
+> `build-site` is still being hardened, so some stages may need a nudge.
 
 ### Prerequisites
 
@@ -190,33 +204,72 @@ VERCEL_TOKEN=your_vercel_token
 # ...plus any Stitch / Claude credentials required by your setup
 ```
 
-### Run a build
+---
 
-Provide a prompt and a target URL, and let the pipeline do the rest:
+## Generating an app
 
-```bash
-# Example (intended usage)
-web-agency build \
-  --prompt "Redesign as a bold, modern SaaS landing experience" \
-  --target https://example.com
+This project is driven through **Claude Code** (locally, or from your phone via **Claude
+remote-control**) — there's no standalone CLI. You operate it by talking to Claude, which runs the
+pipeline using this repo's skills.
+
+### The one-shot way — the `build-site` skill
+
+The whole pipeline is wrapped in a project skill called **`build-site`** (`.claude/skills/build-site/`).
+Give Claude a target URL and a brief, and it orchestrates every stage end to end — scrape → plan →
+scaffold → design → build → deploy:
+
+```text
+build me a site from https://acme.com — a bold, modern SaaS landing experience
 ```
 
-When run via **Claude remote-control**, the same build can be triggered entirely from your phone with a single message.
+Claude will scrape the target, pick the 3 highest-impact pages, scaffold a new app in `apps/<name>`,
+generate the designs in Stitch, build the SvelteKit pages, and deploy a preview to Vercel — returning
+the live URL. From your phone, the same one-line message kicks off the entire build hands-free.
+
+**Choosing a UI flavor.** If you don't say otherwise, it uses the **vanilla Tailwind** template. Ask
+for a flavor to override:
+
+```text
+build a site from https://acme.com using shadcn   # or "daisy", or "vanilla tailwind"
+```
+
+See [Templates](#templates) for the available flavors.
+
+### The building blocks (for finer control)
+
+`build-site` is just orchestration — you can drive any stage yourself:
+
+```bash
+# Scaffold a new app from a template (defaults to vanilla Tailwind)
+pnpm create-app acme-landing                      # vanilla
+pnpm create-app acme-landing --template shadcn    # or daisy
+
+# Run it locally
+pnpm turbo dev --filter=acme-landing
+```
+
+```text
+# Deploy an app — ask Claude to run the deploy-app skill (prebuilt, CLI-driven, no Vercel build minutes)
+deploy acme-landing
+```
+
+Individual stages also have their own skills you can invoke directly — Firecrawl (scrape), Stitch
+(design), and `deploy-app` (ship).
 
 ---
 
 ## Roadmap
 
-- [ ] One-prompt build pipeline (scrape → plan → scaffold → design → deploy)
-- [ ] Firecrawl content extraction
-- [ ] Claude-driven planning and page selection
-- [ ] SvelteKit + Turborepo scaffolding via `create-app` from a chosen template
-- [ ] UI-flavor templates: shadcn-svelte, DaisyUI, vanilla TailwindCSS
-- [ ] Google Stitch design generation into `designs/`
-- [ ] Stitch → SvelteKit + TailwindCSS conversion (responsive pages, extracted Nav/Footer/Card components)
-- [ ] Svelte best-practice grounding via `svelte.dev/llms-*.txt`
-- [ ] Vercel deployment with returned live URL
-- [ ] Full phone-driven flow via Claude remote-control
+- [x] SvelteKit + Turborepo scaffolding via `create-app` from a chosen template
+- [x] UI-flavor templates: shadcn-svelte, DaisyUI, vanilla TailwindCSS
+- [x] Vercel deployment via the `deploy-app` skill (prebuilt, CLI-driven)
+- [x] `build-site` skill orchestrating the full pipeline
+- [x] Firecrawl content extraction wired into `build-site`
+- [x] Claude-driven planning and page selection
+- [x] Google Stitch design generation into `designs/`
+- [x] Stitch → SvelteKit + TailwindCSS conversion (responsive pages, extracted Nav/Footer/Card components)
+- [x] Svelte best-practice grounding via `svelte.dev/llms-*.txt`
+- [ ] End-to-end one-shot build returning a live URL, hands-free via Claude remote-control (validated)
 
 ---
 
