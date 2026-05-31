@@ -122,7 +122,7 @@ flavor**:
 | Template | UI flavor | When it's chosen |
 | --- | --- | --- |
 | `template-shadcn` | **[shadcn-svelte](https://shadcn-svelte.com)** | Polished, accessible component-driven UIs (built on Bits UI); the richest default. |
-| `template-daisyui` | **[DaisyUI](https://daisyui.com)** | Fast, themeable Tailwind component classes with many prebuilt themes. |
+| `template-daisy` | **[DaisyUI](https://daisyui.com)** | Fast, themeable Tailwind component classes with many prebuilt themes. |
 | `template-tailwind` | **Vanilla TailwindCSS** | Maximum control / minimal dependencies — utility classes only, no component library. |
 
 Each template is a working SvelteKit app living in `apps/template-*`, preconfigured with TailwindCSS
@@ -132,7 +132,7 @@ which flavor is used. A new app is created from one with:
 ```bash
 pnpm create-app <app-name> --template <template>
 # e.g. pnpm create-app acme-landing --template template-shadcn
-#      pnpm create-app acme-landing --template daisyui   # the "template-" prefix is optional
+#      pnpm create-app acme-landing --template daisy      # the "template-" prefix is optional
 ```
 
 This copies the template's `src/`, `static/`, and project files into `apps/<app-name>` (skipping
