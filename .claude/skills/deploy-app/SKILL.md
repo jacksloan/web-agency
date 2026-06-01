@@ -84,17 +84,22 @@ vercel link --yes --project web-agency-<app> --scope jacksloans-projects
 
 ### 4. Deploy the prebuilt output
 
-From `apps/<app>`. **Preview by default** — only add `--prod` if the user explicitly asks for production:
+From `apps/<app>`. **Deploy to production by default** — these apps are the deliverable, and only a
+production deploy updates the project's main URL (`https://web-agency-<app>.vercel.app`). A plain
+(preview) deploy gets its own throwaway URL and does **not** move the main alias, which is surprising
+if you expect "deploy" to update the live site.
 
 ```bash
-# Preview (default)
-vercel deploy --prebuilt --scope jacksloans-projects
-
-# Production (only on explicit request)
+# Production (default) — updates the main https://web-agency-<app>.vercel.app alias
 vercel deploy --prebuilt --prod --scope jacksloans-projects
+
+# Preview (opt-in) — throwaway URL, does NOT touch the main alias
+vercel deploy --prebuilt --scope jacksloans-projects
 ```
 
-`--prebuilt` uploads `.vercel/output` as-is; Vercel does not run a build, so no build minutes are used.
+Use preview only when the user explicitly wants a throwaway/preview URL (e.g. "give me a preview").
+`--prebuilt` uploads `.vercel/output` as-is; Vercel does not run a build, so no build minutes are used
+either way.
 
 ### 5. Report the URLs
 

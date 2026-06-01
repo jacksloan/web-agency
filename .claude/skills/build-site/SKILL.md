@@ -118,8 +118,9 @@ Card, etc.) into components under `src/lib/components`.
 
 ### 6. Deploy — ship to Vercel
 Invoke the **`deploy-app`** skill with the app name. It builds with a turbo filter and uploads the
-prebuilt output (`vercel deploy --prebuilt`), so Vercel spends no build minutes. Preview by default;
-production only on explicit request. Report the live URL.
+prebuilt output (`vercel deploy --prebuilt`), so Vercel spends no build minutes. Deploys to
+**production by default** (a preview deploy does not update the main `web-agency-<app>.vercel.app`
+alias); use preview only when the user explicitly wants a throwaway URL. Report the live URL.
 
 ## Conventions (this repo)
 
